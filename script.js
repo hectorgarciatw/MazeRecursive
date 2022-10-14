@@ -4,47 +4,52 @@ function solveMaze(maze, x, y) {
         return false;
     }
     //Encontré la salida del laberinto
-    if (maze[x][y] == 'G') {
+    if (maze[x][y] == 'S') {
         return true;
     }
     //Lugar con obstáculo encontrado
     if (maze[x][y] == '#') {
         return false;
     }
-    if (maze[x][y] == '+') {
+    //Detectamos que estamos volviendo sobre nuestros pasos
+    if (maze[x][y] == 'C') {
         return false;
     }
     //Marco la posición actual como parte de la solución
-    maze[x][y] = '+';
-    //Busco hacia el norte
+    maze[x][y] = 'C';
+
+    //Busco continuar el camino hacia el norte
     if (solveMaze(maze, x, y - 1) == true) {
         return true;
     }
-    //Busco hacia el oeste
+    //Busco continuar el camino  hacia el oeste
     if (solveMaze(maze, x - 1, y) == true) {
         return true;
     }
-    //Busco hacia el sur
+    //Busco continuar el camino  hacia el sur
     if (solveMaze(maze, x, y + 1) == true) {
         return true;
     }
-    //Busco hacia el este
+    //Busco continuar el camino  hacia el este
     if (solveMaze(maze, x + 1, y) == true) {
         return true;
     }
+    //En caso de no poder continuar desmarco la posición para intentar un nuevo trazado
     maze[x][y] = '.';
     return false;
 }
 
+//Representación de un laberinto de pruebas
 let maze = [
-    ['S', '.', '.', '.', '#', '#'],
+    ['I', '.', '.', '.', '#', '#'],
     ['#', '.', '#', '.', '.', '.'],
     ['#', '.', '#', '#', '.', '#'],
     ['.', '.', '#', '.', '#', '#'],
-    ['#', '.', '.', '.', '#', 'G'],
+    ['#', '.', '.', '.', '#', 'S'],
     ['#', '.', '#', '.', '.', '.'],
 ];
 
+//De encontrar un camino exitoso muestro su recorrido por consola
 if (solveMaze(maze, 0, 0)) {
     console.log(maze);
 } else {
